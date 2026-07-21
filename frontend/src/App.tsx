@@ -227,17 +227,17 @@ export default function App() {
 
       {/* Footer (Austerely Clean Agency Footer) */}
       <footer className="border-t border-hairline py-8 px-6 md:px-12 bg-paper text-xs text-mid-grey select-none">
-        <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-3">
-            <span className="font-heading font-medium text-ink">CareerAI Operating System</span>
-            <span className="text-mid-grey/30">|</span>
-            <span>Simulated Cloud Client Workspace</span>
-          </div>
-          <p className="font-sans text-mid-grey/80 text-center md:text-right">
-            Designed in structural black and white. Confident. Silent. Rigorous.
-          </p>
-        </div>
-      </footer>
+  <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-center gap-4">
+    <div className="flex items-center gap-3">
+      <span className="font-heading font-medium text-ink">CareerAI</span>
+      <span className="text-mid-grey/30">|</span>
+      <span>AI Career Copilot</span>
+    </div>
+    <p className="font-sans text-mid-grey/80 text-center md:text-right">
+      Built to help you land the role you're aiming for.
+    </p>
+  </div>
+</footer>
 
     </div>
   );
