@@ -1,0 +1,15 @@
+name: Daily application reminder sweep
+
+on:
+  schedule:
+    - cron: "0 9 * * *"    # 9:00 UTC daily — adjust to your preferred time
+  workflow_dispatch: {}
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger reminder sweep
+        run: |
+          curl -sf -X POST https://your-backend.onrender.com/api/telegram/reminders/run \
+            -H "X-Cron-Secret: ${{ secrets.CRON_SECRET }}"

@@ -1,0 +1,49 @@
+{
+  "software engineer": [
+    {"name": "Data Structures & Algorithms", "target": 90},
+    {"name": "System Design", "target": 85},
+    {"name": "Testing & Debugging", "target": 85},
+    {"name": "Git & CI/CD", "target": 80},
+    {"name": "Cloud Deployment (AWS/GCP/Azure)", "target": 80},
+    {"name": "SQL & Databases", "target": 80}
+  ],
+  "data scientist": [
+    {"name": "Python (Pandas/NumPy)", "target": 90},
+    {"name": "Statistics & Experiment Design", "target": 85},
+    {"name": "Machine Learning (scikit-learn/XGBoost)", "target": 85},
+    {"name": "SQL", "target": 85},
+    {"name": "Data Visualization", "target": 75},
+    {"name": "MLOps / Model Deployment", "target": 70}
+  ],
+  "ai/ml engineer": [
+    {"name": "PyTorch / TensorFlow", "target": 90},
+    {"name": "LLMs & Prompt Engineering", "target": 85},
+    {"name": "Vector Databases & RAG", "target": 85},
+    {"name": "Model Deployment (Docker/APIs)", "target": 80},
+    {"name": "Data Pipelines", "target": 75},
+    {"name": "Distributed Training", "target": 65}
+  ],
+  "product manager": [
+    {"name": "Product Strategy & Roadmapping", "target": 90},
+    {"name": "Stakeholder Communication", "target": 90},
+    {"name": "Data-Driven Decision Making", "target": 85},
+    {"name": "User Research", "target": 80},
+    {"name": "Agile / Scrum", "target": 80},
+    {"name": "A/B Testing & Analytics", "target": 75}
+  ],
+  "frontend developer": [
+    {"name": "TypeScript", "target": 90},
+    {"name": "React / Modern Frameworks", "target": 90},
+    {"name": "Browser Performance", "target": 80},
+    {"name": "Accessibility (WCAG)", "target": 75},
+    {"name": "Testing (Jest/Playwright)", "target": 75},
+    {"name": "State Management", "target": 80}
+  ],
+  "generic": [
+    {"name": "Core Technical Skills", "target": 85},
+    {"name": "Communication", "target": 80},
+    {"name": "Problem Solving", "target": 85},
+    {"name": "Tooling & Collaboration (Git etc.)", "target": 75},
+    {"name": "Domain Knowledge", "target": 75}
+  ]
+}

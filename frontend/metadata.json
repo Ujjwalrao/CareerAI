@@ -1,0 +1,6 @@
+{
+  "name": "CareerAI",
+  "description": "An AI-powered career operating system for parsing resumes, matching job descriptions, mock interviews, and application tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

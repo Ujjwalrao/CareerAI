@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0B1220;
+  --color-paper: #F7F5F0;
+  --color-paper-warm: #ECE8DF;
+  --color-mid-grey: #5A6270;
+  --color-hairline: rgba(11, 18, 32, 0.1);
+  --color-hairline-dark: rgba(247, 245, 240, 0.15);
+  --color-signal: #E3B341;
+  --color-positive: #3FA796;
+  --color-negative: #C1554D;
+
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-heading: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", SFMono-Regular, Consolas, monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, .font-serif-signature {
+    font-family: var(--font-serif);
+  }
+  
+  .font-mono-signature {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Custom CSS Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-hairline);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mid-grey);
+}
+
+/* Typewriter Blinking Cursor keyframes */
+@keyframes cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.typewriter-cursor::after {
+  content: "|";
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--color-signal);
+  font-weight: bold;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* Fade slide transitions */
+.fade-slide-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.fade-slide-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 250ms ease-out, transform 250ms ease-out;
+}
+
