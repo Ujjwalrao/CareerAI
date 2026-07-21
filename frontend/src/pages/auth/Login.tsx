@@ -185,10 +185,10 @@ export default function Login() {
       <div id="auth-form" className="flex w-full flex-col justify-center px-8 py-12 md:w-1/2 md:px-20 md:py-16 bg-paper">
         <div className="mx-auto w-full max-w-sm">
           <h2 className="font-heading text-[24px] sm:text-[28px] tracking-tight font-medium text-ink">
-            {isSignup ? "Create credentials" : "Access your workspace"}
+            {isSignup ? "Create your account" : "Sign in"}
           </h2>
           <p className="mt-1 text-[13px] text-mid-grey font-sans">
-            {isSignup ? "Initialize your local CareerAI profile." : "Enter your keys to resume active tracking."}
+            {isSignup ? "Create your CareerAI profile to get started." : "Log in to continue tracking your applications."}
           </p>
 
           <form onSubmit={handleLoginSubmit} className="mt-8 flex flex-col gap-4">
@@ -207,7 +207,7 @@ export default function Login() {
             )}
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-sans text-[12px] font-medium tracking-tight text-ink">Email Key</label>
+              <label className="font-sans text-[12px] font-medium tracking-tight text-ink">Email</label>
               <input
                 type="email"
                 required
@@ -220,7 +220,7 @@ export default function Login() {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <label className="font-sans text-[12px] font-medium tracking-tight text-ink">Passphrase</label>
+                <label className="font-sans text-[12px] font-medium tracking-tight text-ink">Password</label>
                 {!isSignup && (
                   <button type="button" className="font-sans text-[11px] text-mid-grey hover:text-ink">
                     Forgot key?
@@ -243,7 +243,7 @@ export default function Login() {
               disabled={loading}
               className="mt-2 py-3"
             >
-              {loading ? "Decrypting workspace..." : isSignup ? "Create profile" : "Unlock workspace"}
+              {loading ? "Please wait..." : isSignup ? "Sign up" : "Log in"}
             </Button>
 
             {error && (
