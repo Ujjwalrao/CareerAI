@@ -23,6 +23,10 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class GoogleLoginRequest(BaseModel):
+    credential: str  # the ID token JWT from Google's Sign-In JS SDK
+
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
