@@ -14,6 +14,12 @@ export async function loginUser(email: string, password: string): Promise<UserPr
   return data.user;
 }
 
+export async function loginWithGoogle(credential: string): Promise<UserProfile> {
+  const data = await apiPost('/api/auth/google', { credential }, false);
+  setToken(data.access_token);
+  return data.user;
+}
+
 export function logoutUser() {
   clearToken();
 }
