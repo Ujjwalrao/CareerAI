@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     telegram_bot_token: str = ""
     telegram_bot_username: str = ""
     cron_secret: str = "change-this-secret"
+    google_client_id: str = ""
 
     class Config:
         env_file = ".env"
