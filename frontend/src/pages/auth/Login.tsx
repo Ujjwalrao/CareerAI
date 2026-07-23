@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppStore } from '../../store/useAppStore';
-import { registerUser, loginUser } from '../../services/api';
+import { registerUser, loginUser, loginWithGoogle } from '../../services/api';
 import ScoreReadout from '../../components/ui/ScoreReadout';
 import Button from '../../components/ui/Button';
 import { Mail, ShieldCheck } from 'lucide-react';
@@ -14,6 +14,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const googleButtonRef = useRef<HTMLDivElement | null>(null);
 
   // Simulated Mouse scrub interactive grid/particles on Left panel
   useEffect(() => {
@@ -33,7 +34,6 @@ export default function Login() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Grid coordinates
     let mouseX = width / 2;
     let mouseY = height / 2;
     let targetMouseX = width / 2;
@@ -51,14 +51,12 @@ export default function Login() {
     }
 
     const draw = () => {
-      // Smoothly interpolate mouse for visual fluidness
       mouseX += (targetMouseX - mouseX) * 0.08;
       mouseY += (targetMouseY - mouseY) * 0.08;
 
       ctx.fillStyle = '#0B1220';
       ctx.fillRect(0, 0, width, height);
 
-      // Draw high-end editorial grid
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
       ctx.lineWidth = 1;
       const gridSize = 40;
@@ -77,9 +75,8 @@ export default function Login() {
         ctx.stroke();
       }
 
-      // Draw interactive overlay vignette (simulate high-end video focus/glow on cursor)
       const gradient = ctx.createRadialGradient(mouseX, mouseY, 10, mouseX, mouseY, 250);
-      gradient.addColorStop(0, 'rgba(227, 179, 65, 0.08)'); // subtle amber flare
+      gradient.addColorStop(0, 'rgba(227, 179, 65, 0.08)');
       gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.01)');
       gradient.addColorStop(1, 'rgba(10, 10, 10, 0)');
       
@@ -88,10 +85,8 @@ export default function Login() {
       ctx.arc(mouseX, mouseY, 300, 0, Math.PI * 2);
       ctx.fill();
 
-      // Slow drifting dust/scraps (simulate camera/film dust)
       ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
       for (let i = 0; i < 8; i++) {
-        // Position changes based on mouse position to simulate video scrubbing
         const timeOffset = (mouseX / width) * 200;
         const x = ((Math.sin(i * 45 + timeOffset * 0.05) + 1) / 2) * width;
         const y = ((Math.cos(i * 12 + timeOffset * 0.02) + 1) / 2) * height;
@@ -114,6 +109,50 @@ export default function Login() {
     };
   }, []);
 
+  // Initialize Google Identity Services once the script (loaded in index.html) is ready,
+  // and render Google's real button into a hidden div — our custom-styled button
+  // just forwards its click to this hidden real button.
+  useEffect(() => {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId) return;
+
+    const initGoogle = () => {
+      const google = (window as any).google;
+      if (!google?.accounts?.id || !googleButtonRef.current) return;
+
+      google.accounts.id.initialize({
+        client_id: clientId,
+        callback: async (response: { credential: string }) => {
+          setLoading(true);
+          setError('');
+          try {
+            const user = await loginWithGoogle(response.credential);
+            setUser(user);
+            await bootstrap();
+            setActiveTab('dashboard');
+          } catch (err) {
+            setError(err instanceof Error ? err.message : 'Google sign-in failed, try again.');
+          } finally {
+            setLoading(false);
+          }
+        },
+      });
+      google.accounts.id.renderButton(googleButtonRef.current, { theme: 'outline', size: 'large', width: 320 });
+    };
+
+    if ((window as any).google?.accounts?.id) {
+      initGoogle();
+    } else {
+      const interval = setInterval(() => {
+        if ((window as any).google?.accounts?.id) {
+          clearInterval(interval);
+          initGoogle();
+        }
+      }, 300);
+      return () => clearInterval(interval);
+    }
+  }, []);
+
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
@@ -134,23 +173,24 @@ export default function Login() {
   };
 
   const handleGoogleOAuth = () => {
-    // Google OAuth isn't wired to the backend yet — email/password works end-to-end.
-    // To add this: implement Google's OAuth flow and a matching /api/auth/google endpoint.
-    setError('Google sign-in is not connected yet — use email + password for now.');
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      setError('Google sign-in is not configured yet — set VITE_GOOGLE_CLIENT_ID.');
+      return;
+    }
+    const realButton = googleButtonRef.current?.querySelector('div[role="button"]') as HTMLElement | null;
+    realButton?.click();
   };
 
   return (
     <div id="auth-container" className="flex min-h-screen w-full flex-col md:flex-row bg-paper">
       
-      {/* Left Column: Full bleed --ink black */}
       <div id="auth-hero" className="relative flex w-full flex-col justify-between bg-ink px-8 py-10 text-paper md:w-1/2 md:px-16 md:py-14 overflow-hidden min-h-[340px]">
-        {/* Canvas background acting like simulated scrubbing video */}
         <canvas 
           ref={canvasRef} 
           className="absolute inset-0 h-full w-full pointer-events-none opacity-90"
         />
 
-        {/* Content overlaid on canvas */}
         <div className="relative z-10 flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-signal animate-pulse" />
           <span className="font-heading text-lg font-medium tracking-tight">CareerAI</span>
@@ -181,7 +221,6 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Column: Clean plain --paper white */}
       <div id="auth-form" className="flex w-full flex-col justify-center px-8 py-12 md:w-1/2 md:px-20 md:py-16 bg-paper">
         <div className="mx-auto w-full max-w-sm">
           <h2 className="font-heading text-[24px] sm:text-[28px] tracking-tight font-medium text-ink">
@@ -260,7 +299,9 @@ export default function Login() {
             </span>
           </div>
 
-          {/* Google OAuth (Mocked) */}
+          {/* Google's real button renders invisibly here — our styled button forwards clicks to it */}
+          <div ref={googleButtonRef} className="hidden" />
+
           <button
             onClick={handleGoogleOAuth}
             disabled={loading}
