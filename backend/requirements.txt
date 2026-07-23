@@ -15,3 +15,4 @@ google-genai==2.12.1
 fpdf2==2.8.7
 python-dotenv==1.2.2
 requests==2.34.2
+google-auth==2.50.0
